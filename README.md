@@ -1,0 +1,1 @@
+# A well developed app in svelte, pocketbase and node js
