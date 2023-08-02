@@ -1,55 +1,132 @@
 <script lang="ts">
-	let name = `mike is a good <strong> boy </strong>`;
-	let count = 0;
-	const increment = () => {
-		count += 1;
-	};
+	import Nested from '$lib/Nested.svelte';
 
-	$: doubled = count * 2;
-	$: if (count >= 10) {
-		alert('count is supper high!');
-		count = 0;
+	// let name = `mike is a good <strong> boy </strong>`;
+	// let count = 0;
+	// const increment = () => {
+	// 	count += 1;
+	// };
+
+	// $: doubled = count * 2;
+	// $: if (count >= 10) {
+	// 	alert('count is supper high!');
+	// 	count = 0;
+	// }
+	// let numbers = [1, 2, 3, 4];
+	// const addNumber = () => {
+	// 	numbers = [...numbers, numbers.length + 1];
+	// };
+	// $: sum = numbers.reduce((total, currentNumber) => total + currentNumber, 0);
+
+	// import Thing from '$lib/Nested.svelte';
+
+	// const pkg = {
+	// 	name: 'svelte',
+	// 	speed: 'blazing',
+	// 	version: 8,
+	// 	website: 'https://svelte.dev'
+	// };
+	// const pkg1 = {
+	// 	name: 'react',
+	// 	speed: 'blazing',
+	// 	version: 8,
+	// 	website: 'https://svelte.dev'
+	// };
+
+	// // Each blocks
+	// const color = ['red', 'orange', 'yellow', 'green', 'blue', 'indigo', 'violet'];
+	// let selected = color[0];
+
+	// // Keyed each blocks
+
+	// let things = [
+	//     {id: 1, name: 'apple'},
+	//     {id: 1, name: 'banana'},
+	//     {id: 1, name: 'carrot'},
+	//     {id: 1, name: 'doughnut'},
+	//     {id: 1, name: 'egg'}
+
+	// ];
+
+	// const handleClick= () => {things = things.slice(1)};
+
+	// Await blocks
+
+	// import {getRandomNumber } from './utils';
+
+	// let promise = getRandomNumber();
+
+	// function handleClick() {
+	// 	promise = getRandomNumber();
+	// }
+
+	let questions = [
+		{
+			id: 1,
+			text: `Where did you go to school?`
+		},
+		{
+			id: 2,
+			text: `What is your mother's name?`
+		},
+		{
+			id: 3,
+			text: `What is another personal fact that an attacker could easily find with Google?`
+		}
+	];
+
+	let selected: { id: any; text: any; };
+
+	let answer = '';
+
+	function handleSubmit() {
+		alert(
+			`answered question ${selected.id} (${selected.text}) with "${answer}"`
+		);
 	}
-	let numbers = [1, 2, 3, 4];
-	const addNumber = () => {
-		numbers = [...numbers, numbers.length + 1];
-	};
-	$: sum = numbers.reduce((total, currentNumber) => total + currentNumber, 0);
-
-	import Thing from '$lib/Nested.svelte';
-
-	const pkg = {
-		name: 'svelte',
-		speed: 'blazing',
-		version: 8,
-		website: 'https://svelte.dev'
-	};
-	const pkg1 = {
-		name: 'react',
-		speed: 'blazing',
-		version: 8,
-		website: 'https://svelte.dev'
-	};
-
-	// Each blocks
-	const color = ['red', 'orange', 'yellow', 'green', 'blue', 'indigo', 'violet'];
-	let selected = color[0];
-
-    // Keyed each blocks
-
-    let things = [
-        {id: 1, name: 'apple'},
-        {id: 1, name: 'banana'},
-        {id: 1, name: 'carrot'},
-        {id: 1, name: 'doughnut'},
-        {id: 1, name: 'egg'}
-    
-    ];
-
-    const handleClick= () => {things = things.slice(1)};
+	
 </script>
 
-<p>Hello world {@html name}</p>
+<h2>Insecurity questions</h2>
+
+<form on:submit|preventDefault={handleSubmit}>
+	<select
+		bind:value={selected}
+		on:change={() => (answer = '')}
+	>
+		{#each questions as question}
+			<option value={question}>
+				{question.text}
+			</option>
+		{/each}
+	</select>
+
+	<input bind:value={answer} />
+
+	<button disabled={!answer} type="submit">
+		Submit
+	</button>
+</form>
+
+<p>
+	selected question {selected
+		? selected.id
+		: '[waiting...]'}
+</p>
+
+<!-- <button on:click={handleClick}>
+	Generate random number
+</button>
+
+{#await promise}
+<p>...waiting</p>
+{:then number}
+<p>The Number is{number}</p>
+{:catch error } 
+	<p style="color:red"> {error.message}</p>
+{/await} -->
+
+<!-- <p>Hello world {@html name}</p>
 
 <button on:click={increment}>
 	Clicked {count}
@@ -78,16 +155,13 @@
 	{/each}
 </div>
 <!--Keyed Each blocks-->
-<button on:click={handleClick}>
+<!-- <button on:click={handleClick}>
     Remove first thing
-</button>
-
-{#each things as thing (thing.id) }
-<Thing name1={thing.name} />
-{/each}
+</button> -->
 
 <style>
-	p {
+
+	/* p {
 		color: rgb(10, 9, 9);
 	}
 
@@ -115,5 +189,5 @@
 		transform: none;
 		filter: none;
 		box-shadow: inset 3px 3px 4px rgba(0,0,0,0.2);
-	}
+	} */
 </style>
