@@ -83,7 +83,7 @@
 </button>
 
 {#each things as thing (thing.id) }
-<Thing name={thing.name} />
+<Thing name1={thing.name} />
 {/each}
 
 <style>
