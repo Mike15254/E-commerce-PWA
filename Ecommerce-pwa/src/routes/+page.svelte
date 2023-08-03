@@ -1,193 +1,38 @@
 <script lang="ts">
-	import Nested from '$lib/Nested.svelte';
+	import { tick } from "svelte";
 
-	// let name = `mike is a good <strong> boy </strong>`;
-	// let count = 0;
-	// const increment = () => {
-	// 	count += 1;
-	// };
+	// import Chatbot from '$lib/Eliza.svelte';
+	let text = `Select some text and hit the tab key to toggle uppercase`;
 
-	// $: doubled = count * 2;
-	// $: if (count >= 10) {
-	// 	alert('count is supper high!');
-	// 	count = 0;
-	// }
-	// let numbers = [1, 2, 3, 4];
-	// const addNumber = () => {
-	// 	numbers = [...numbers, numbers.length + 1];
-	// };
-	// $: sum = numbers.reduce((total, currentNumber) => total + currentNumber, 0);
 
-	// import Thing from '$lib/Nested.svelte';
+	async function handleKeydown(event:any) {
+		if (event.Key !== 'Tab') return;
 
-	// const pkg = {
-	// 	name: 'svelte',
-	// 	speed: 'blazing',
-	// 	version: 8,
-	// 	website: 'https://svelte.dev'
-	// };
-	// const pkg1 = {
-	// 	name: 'react',
-	// 	speed: 'blazing',
-	// 	version: 8,
-	// 	website: 'https://svelte.dev'
-	// };
+		event.preventDefault();
 
-	// // Each blocks
-	// const color = ['red', 'orange', 'yellow', 'green', 'blue', 'indigo', 'violet'];
-	// let selected = color[0];
+		const { selectionStart, selectionEnd, value} = this;
+		const selection = value.slice(selectionStart, selectionEnd);
 
-	// // Keyed each blocks
+		const replacment = /[a-z]/.test(selection)
+			? selection.toUpperCase()
+			: selection.toLowerCase();
 
-	// let things = [
-	//     {id: 1, name: 'apple'},
-	//     {id: 1, name: 'banana'},
-	//     {id: 1, name: 'carrot'},
-	//     {id: 1, name: 'doughnut'},
-	//     {id: 1, name: 'egg'}
+		text = 
+			value.slice(0, selectionStart) + replacment + value.slice(selectionEnd);
 
-	// ];
-
-	// const handleClick= () => {things = things.slice(1)};
-
-	// Await blocks
-
-	// import {getRandomNumber } from './utils';
-
-	// let promise = getRandomNumber();
-
-	// function handleClick() {
-	// 	promise = getRandomNumber();
-	// }
-
-	let questions = [
-		{
-			id: 1,
-			text: `Where did you go to school?`
-		},
-		{
-			id: 2,
-			text: `What is your mother's name?`
-		},
-		{
-			id: 3,
-			text: `What is another personal fact that an attacker could easily find with Google?`
-		}
-	];
-
-	let selected: { id: any; text: any; };
-
-	let answer = '';
-
-	function handleSubmit() {
-		alert(
-			`answered question ${selected.id} (${selected.text}) with "${answer}"`
-		);
+		await tick();
+		this.selectionStart = selectionStart;
+		this.selectionEnd = selectionEnd;
 	}
-	
 </script>
+<!-- <Chatbot/> -->
 
-<h2>Insecurity questions</h2>
-
-<form on:submit|preventDefault={handleSubmit}>
-	<select
-		bind:value={selected}
-		on:change={() => (answer = '')}
-	>
-		{#each questions as question}
-			<option value={question}>
-				{question.text}
-			</option>
-		{/each}
-	</select>
-
-	<input bind:value={answer} />
-
-	<button disabled={!answer} type="submit">
-		Submit
-	</button>
-</form>
-
-<p>
-	selected question {selected
-		? selected.id
-		: '[waiting...]'}
-</p>
-
-<!-- <button on:click={handleClick}>
-	Generate random number
-</button>
-
-{#await promise}
-<p>...waiting</p>
-{:then number}
-<p>The Number is{number}</p>
-{:catch error } 
-	<p style="color:red"> {error.message}</p>
-{/await} -->
-
-<!-- <p>Hello world {@html name}</p>
-
-<button on:click={increment}>
-	Clicked {count}
-	{count === 1 ? 'time' : 'times'}
-</button>
-{#if count > 5}
-	<p>{count} is greater than 5</p>
-{:else}
-	<p>{count} is between 0 and 5</p>
-{/if}
-<p>{count} doubled is {doubled}</p>
-<p>{numbers.join(' + ')} = {sum}</p>
-<button on:click={addNumber}> Add a number</button>
-
-// Each blocks
-<h1 style="color: {selected}">Pick a color</h1>
-
-<div>
-	{#each color as color, i}
-		<button
-			aria-current={selected === color}
-			aria-label="color"
-			style="background: {color}"
-			on:click={() => selected === color}>{i + 1}</button
-		>
-	{/each}
-</div>
-<!--Keyed Each blocks-->
-<!-- <button on:click={handleClick}>
-    Remove first thing
-</button> -->
-
+<textarea value={text} on:keydown={handleKeydown}></textarea>
 <style>
-
-	/* p {
-		color: rgb(10, 9, 9);
+	textarea {
+		width: 100%;
+		height: 100%;
+		resize: none;
 	}
 
-	h1 {
-		transition: color 0.2s;
-	}
-
-	div {
-		display: grid;
-		grid-template-columns: repeat(7, 1fr);
-		grid-gap: 5px;
-		max-width: 400px;
-	}
-
-	button {
-		aspect-ratio: 1;
-		border-radius: 50%;
-		background: var(--color, #fff);
-		transform: translate(-2px,-2px);
-		filter: drop-shadow(2px 2px 3px rgba(0,0,0,0.2));
-		transition: all 0.1s;
-	}
-
-	button[aria-current="true"] {
-		transform: none;
-		filter: none;
-		box-shadow: inset 3px 3px 4px rgba(0,0,0,0.2);
-	} */
 </style>
