@@ -34,5 +34,4 @@
 		height: 100%;
 		resize: none;
 	}
-
 </style>
