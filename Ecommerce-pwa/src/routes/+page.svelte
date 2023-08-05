@@ -1,37 +1,17 @@
 <script lang="ts">
-	import { tick } from "svelte";
+	import { time, elapsed } from '$lib/stores2';
 
-	// import Chatbot from '$lib/Eliza.svelte';
-	let text = `Select some text and hit the tab key to toggle uppercase`;
-
-
-	async function handleKeydown(event:any) {
-		if (event.Key !== 'Tab') return;
-
-		event.preventDefault();
-
-		const { selectionStart, selectionEnd, value} = this;
-		const selection = value.slice(selectionStart, selectionEnd);
-
-		const replacment = /[a-z]/.test(selection)
-			? selection.toUpperCase()
-			: selection.toLowerCase();
-
-		text = 
-			value.slice(0, selectionStart) + replacment + value.slice(selectionEnd);
-
-		await tick();
-		this.selectionStart = selectionStart;
-		this.selectionEnd = selectionEnd;
-	}
+	const formatter = new Intl.DateTimeFormat('en', {
+		hour12: false,
+		hour: 'numeric',
+		minute: '2-digit',
+		second: '2-digit'
+	});
 </script>
-<!-- <Chatbot/> -->
 
-<textarea value={text} on:keydown={handleKeydown}></textarea>
-<style>
-	textarea {
-		width: 100%;
-		height: 100%;
-		resize: none;
-	}
-</style>
+<h1>The time is {formatter.format($time)}</h1>
+
+<p>
+	This page has been openfor {$elapsed}
+	{$elapsed === 1 ? 'second' : 'seconds'}
+</p>
