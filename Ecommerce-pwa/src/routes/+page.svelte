@@ -42,16 +42,7 @@
 		}}
 	/>
 
-	<div class="todo">
-		<h2>todo</h2>
-		<TodoList store={todos} done={false} />
-	</div>
-
-	<div class="done">
-		<h2>done</h2>
-		<TodoList store={todos} done={true} />
-	</div>
-</div>
+s
 
 <style>
 	.board {
