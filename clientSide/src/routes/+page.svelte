@@ -1,3 +1,4 @@
 <script>
-	import Navbar from "./Navbar.svelte";
+	import Banner from "$lib/carousel.svelte";
 </script>
+<Banner/>
