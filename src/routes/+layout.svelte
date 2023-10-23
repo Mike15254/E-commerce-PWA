@@ -1,10 +1,12 @@
 <script>
-	import Navbar from "$lib/navbar.svelte";
-    import "$lib/styles.css"
+	import Navbar from '$lib/navbar.svelte';
+	import '$lib/styles.css';
 </script>
 
 <div class="app">
-	<Navbar/>
+	<header>
+		<Navbar />
+	</header>
 
 	<main>
 		<slot />
@@ -17,7 +19,12 @@
 
 <style>
 	.app {
-    		display: flex;
+		display: flex;
 		flex-direction: column;
 	}
+	header {
+		display: flex;
+	}
+
+	
 </style>

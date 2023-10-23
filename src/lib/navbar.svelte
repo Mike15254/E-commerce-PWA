@@ -9,6 +9,7 @@
 </script>
 
 <div>
+<<<<<<< HEAD
 	<img src={logo} alt="" />
 </div>
 
@@ -35,3 +36,14 @@
       margin-right: 0.5rem;
     }
   </style>
+=======
+    <img src={img1} alt="">
+</div>
+
+<style>
+    img {
+        width: 40vmin;
+        height: 40vmin;
+    }
+</style>
+>>>>>>> refs/remotes/origin/main
